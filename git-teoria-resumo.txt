@@ -1,0 +1,182 @@
+no prompt
+
+cria uma pasta - mkdir
+limpa o prompt - clear
+limpa o prompt - control + l
+apaga pasta criada se estiver vazia - rmdir
+
+fundamentos
+
+SHA1 - algoritmo de criptogração que protege o arquivo e com seu número o identifica
+blob - objeto: bolha ou bloco que contém e identifica metadados do conteúdo de um arquivo
+trees - armazenam blobs e podem apontar por outras tress ou blobs
+commit - unde todo o conteúdo das trees e blobs identificando uma mensagem, hora de ciação, autor e um SHA1 relacionado ao conteúdo criptografado
+
+chaves SSH
+
+SSH - Chave de acesso que permite maior segurança, existindo uma chave pública e uma privada, a pública no github e a privada dentro da máquina, de maneira que ao ser feito um push essas chaves irão se validarem para permitir a realização da transferência para o git.
+
+ssh-keygen -t ed25519 -C email do usuário — cria uma chave de acesso SSH
+
+após criar a chave SSH ir para a pasta do usuário da máquina, dentro da pasta .ssh e listar os itens para que a chave pública e privada apareça e assim possa ser manipulada
+cat - mostra o conteúdo de uma chave, e com esse conteúdo basta copiar e colocar no github.
+eval $(ssh-agent -s) - após colocar a chave no github usar esse código no Dash para fazer com que a chave funcione
+ssh-add chave privada - passa para o agent a administração da chave privada para que funcione corretamente
+
+
+Untracked - arquivos que o git ainda não tem ciência sobre eles
+Tracked - arquivos que o git já possui ciência sobre a existência. Ou seja, que já foram incluídos em alguma branch.
+   Unmodified - arquivos que não foram modificados e não foram adicionados em uma branch
+   Modified - arquivos que foram modificados e não foram adicionados em uma branch
+   Staged - arquivos prontos para serem commitados, já adicionados a uma branch
+após um arquivo em staged ser commitado automáticamente ele se tornará um arquivo inmodified, de maneira que sua nova versão ao ser modificada não irá alterar a versão já commitada, podendo gerar uma versão em cima de outra versão.
+
+
+mv nome do arquivo com extensão /nome da pasta para onde deseja que o arquivo seja movido
+
+
+git config --list - indica todas as configurações do git
+git config --global --unset nome da configuração a ser mudada - utilizado para resetar o parâmetro de alguma configuração
+git config --global configuração a ser mudada "novo parâmetro" - utilizado para dar um novo parâmetro para uma configuração resetada
+
+
+abrir prompt de comando - cmd
+navegar entre pastas - cd nome da pasta ou cd / para ir até a pasta c:
+listar arquivos dentro de uma pasta - dir
+voltar uma pasta / como se fosse o botão retornar - cd ..
+
+inicia repositório dentro da pasta onde os arquivos irão ficar - git init
+adiciona arquivos para um commit - git add
+Adiciona todos os arquivos untracked para commit - git add -A
+fazer um commit após todos os arquivos a serem commitados estarem incluidos - git commit -m "frase/descrição sobre o programa"
+para adicionar os arquivos para commitar já realizando a descrição do commit - git commit -am "frase/descrição sobre o programa"
+mostra todos os commits feitos para aquela pasta - git log (mostra todas as informações como chave do commit, autor, data de criação, comentário enviado ao realizar o commit, e-mail do autor e etc)
+
+mostra todos os branch do projeto e em qual está atualmente - git branch
+cria um novo branch - git branch nomedonovobranch
+muda de branch para um branch selecionado através de seu nome - git checkout nomedobranch
+
+o novo branch pegará como base os arquivos do branch onde você estiver quando criar o branch
+
+mostra o status dos arquivos do programa e se tem algo a commitar - git status
+   untracked - arquivos ainda não conhecidos pelo git, normalmente que não entraram em nenhum commit
+
+mostra quais foram as alterações feitas dentro de um branch - git diff
+mostra o nome do arquivo que foi modificado, sem mostrar quais alterações foram feitas - git diff --name- only
+mostra apenas o que foi alterado dentro do arquivo mencionado - git diff nomedoarquivo
+   
+
+branch - versões diferentes do sistema
+master - primeira versão original da brunch
+commit - enviar arquivos/alterações para o git
+git armazena apenas as modificações feitas ao sistema através de cada commit
+a cada commit fazer um comentário relevante do que foi modificado
+README.md - Criar no git, arquivo leia contendo as explicações de instalação, funcionamento do sistema e direitos autorais
+
+git reset -- soft   retorna para um commit especificado anteriormente, mantendo os arquivos dos commits mais recentes ainda prontos
+git reset -- mixed   semelhante ao soft, sua diferença é que os documentos sucessores não estarão preparados para comitar, precisarão ser novamente adicionados
+git reset -- hard   como se excluísse um commit, apagando tudo o que foi feito inclusive os arquivos
+ao fazer o comando git reset colocar em seguida o número do commit ao qual se deseja voltar
+EM TODOS OS RESET O COMMIT É EXCLUIDO, RPECISANDO FAZER UM NOVO COMMIT COM AS ALTERAÇÕES
+
+descarta automaticamente todas as alterações realizadas dentro de um arquivo - git checkout HEAD (ou o nome da branch) -- nome do arquivo
+
+no geral feito para voltar uma versão, quer seja de um commit, branch, arquivo, pasta... - git checkout
+
+
+chave SSH
+
+
+enviar arquivos commitados para uma rede pública/remoto, no caso para o github (fazer um push)
+
+após realizar todo o processo de criação dos arquivos/alteração de conteúdo e realizar a commitação:
+
+cria um repositório remoto dentro do git para envio dos commits (comum ser utilizado a palavra origin como nome desse repositório) - git remote add origin link do repositório criado no github
+envia os arquivos do repositório interno para um repositório remoto - git push -u origin master
+origin é a marcação do nome colocado no primeiro código e master é o nome do banch que se deseja enviar, podendo ser qualquer outro
+
+fetch - capacidade de puxar o conteúdo de um repositório remoto para meu repositório local
+push - capacidade de empurrar o conteúdo do meu repositório local para um repositório remoto
+
+atualizar o conteúdo de um repositório após ter sido alterado / criação de uma nova versão
+    apenas refazer o mesmo processo do envio de push, apenas não sendo necessário criar um novo repositório
+
+como fazer commits ignorando arquivos que não devem ser mostrados ao público, como senhas salvas, backup's e dados privados
+
+criar uma novo arquivo dentro da pasta do arquivo chamada .gitignore
+escrever dentro do arquivo .gitignore o nome dos arquivos a serem ignorados ou colocar *.extensãodoarquivo para ignorar todos os arquivos que tenham a mesma extensão
+
+faz o commit e push da modificação, criando o arquivo .gitignore
+
+
+reverter modificações
+
+reverte a versão do conteúdo para o commit anterior a selecionada, mas ao contrário do reset não se perde as modificações ou exclui a branch, apenas a ignora para que seu conteúdo possa ser reutilizado no futuro
+
+git revert --no--edit número do commit a ser revertido
+
+OBS: No reset deve ser colocado o número do commit ao qual será reencaminhado, apagando os sucessores, já no revert deve ser colocado o número do commit a ser ignorado e revertido para o commit anterior
+
+deletar branch, commits, tags e demais arquivos no repositório remoto
+
+fazer um push com uma simples modificação - git push origin :nomedabranch
+
+obs: : significa que deseja deletar algo do repositório remoto
+
+deletar branch no repositório local
+
+git branch -D nome do branch a ser deletado
+
+obs: precisa estar fora do branch a ser deletado
+
+puxar os arquivos do repositório remoto para o repositório local, substituindo os arquivos por estarem diferentes e trazendo junto o histórico de modificações
+
+git pull origin nome do branch
+
+
+clonar projetos do github
+
+git clone url do projeto a ser clonado
+
+
+contribuir com outros projetos
+
+dar um fork no projeto a ser contribuido para criar um repositório meu daquele projeto, e após isso fazer o clone desse repositório para poder edita-lo em meu repositório local
+
+para enviar o projeto modificado para o destinatário original para que ele avalie e aceite ou não as modificações
+
+clicar em new pull request
+conferir os dados do destinatário
+create pull request
+fazer comentários sobre as alterações
+create pull request
+
+
+git branch -M nome novo da branch - usado para renomear uma branch
+
+
+criar uma nova branch para a criação de novas funcionalidades e/ou partes do software, ex: para criar a responsividade de um site ou uma nova página do site, assim é possível alterar mais facilmente cada parte quando necessário, organizando melhor o arquivo geral do commit
+
+
+
+git merge nome da branch - usado para juntar o conteúdo de uma branch com a outra quando necessário. É preciso estar dentro de uma das branchs envolvidas no processo e colocar o nome da segunda branch a qual será unido os documentos
+
+
+corrigir mensagem no commit
+
+git commit --m "mensagem correta"
+
+
+.gitignore - ignora arquivos que não serão commitados como senhas, arquivos de controle interno e etc.
+salvar dentro desse arquivo o nome com a extensão dos arquivos a serem ignorados pelo git.
+
+depois adicionar o arquivo .gitignore em um commit (de preferência em uma branch apenas para ele)
+
+branch são usados para criar ramificações em que será trabalhado a parte alguma nova funcionalidade do software, de modo que o trabalho em outras branchs possa acontecer em paralelo. Quando desejar unir uma branch a outra, ou uma branch a branch master basta fazer um marge para unir ambas.
+
+Uma branch que já esteja concluída e não terá modificações uma vez que a funcionalidade já está completa após ter sido dado merge* deve ser excluída para que não confunda os desenvolvedores.
+
+Sempre que for trabalhar em paralelo a outro desenvolver no mesmo software o ideal é criar uma branch para que possa fazer as suas modificações e após pronto e testado aquela funcionalidade, fazer o merge
+
+*git rebase nome do branch - une um branch em outro, semelhante ao merde, mas não cria um novo commit. Deve ser utilizado apenas em execuções internas para melhor organização, de modo a não deixar rastros das branchs criadas quando dar push e enviar os arquivos para o servidor externo.
+
